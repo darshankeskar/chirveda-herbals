@@ -1,7 +1,9 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { useCart } from "../../context/CartContext";
 
 const ProductCard = ({
+  id,
   image,
   title,
   description,
@@ -12,6 +14,8 @@ const ProductCard = ({
   offerText,
   discountPercent,
 }) => {
+
+  const { addToCart } = useCart();
   return (
     <div className="relative bg-white rounded-2xl shadow-md hover:shadow-xl transition p-5 border border-gray-100">
       {/* Offer Tag */}
@@ -57,9 +61,23 @@ const ProductCard = ({
       </div>
 
       {/* Add to Cart Button */}
-      <button className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2.5 cursor-pointer rounded-xl transition">
+
+      <button
+        onClick={() =>
+          addToCart({
+            id,
+            image,
+            title,
+            discountedPrice,
+            originalPrice,
+            offerText,
+          })
+        }
+        className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-2.5 cursor-pointer rounded-xl transition"
+      >
         ADD TO CART
       </button>
+
     </div>
   );
 };

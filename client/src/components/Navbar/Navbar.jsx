@@ -1,13 +1,17 @@
+
 import React, { useState } from "react";
 import { FaBars, FaSearch } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import logo from "../../assets/images/alover-logo.png";
-import { IoCartOutline } from "react-icons/io5";
+import { IoCartOutline } from "react-icons/io5"; //  Use this icon for both desktop & mobile
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cartCount } = useCart();
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Features", path: "/features" },
@@ -19,7 +23,7 @@ const Navbar = () => {
   return (
     <nav className="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50 transition-all duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main Navbar Row */}
+        {/* ======= Main Navbar Row ======= */}
         <div className="flex justify-between items-center py-4">
           {/* Logo Section */}
           <div className="flex items-center space-x-3 cursor-pointer">
@@ -31,7 +35,7 @@ const Navbar = () => {
               />
             </div>
             <div>
-              <h1 className="text-[18px] sm:text-xl md:text-2xl font-bold text-gray-800 leading-tight logo-text">
+              <h1 className="text-[18px] sm:text-xl md:text-2xl font-bold text-gray-800 leading-tight">
                 CHIRVEDA HERBALS
               </h1>
               <p className="text-[10px] sm:text-xs text-green-600 font-medium tracking-wide">
@@ -40,20 +44,20 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Desktop Menu */}
+          {/* ======= Desktop Menu ======= */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((item, i) => (
+            {navLinks.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className="text-gray-700 hover:text-green-600 font-medium text-base transition nav-link"
+                className="text-gray-700 hover:text-green-600 font-medium text-base transition"
               >
                 {item.name}
               </Link>
             ))}
           </div>
 
-          {/* Desktop Right Section */}
+          {/* ======= Desktop Right Section ======= */}
           <div className="hidden lg:flex items-center space-x-6">
             {/* Search Bar */}
             <div className="relative text-gray-600 focus-within:text-green-600 border border-gray-300 rounded-full overflow-hidden">
@@ -79,36 +83,47 @@ const Navbar = () => {
                 <FaRegUser className="text-xl" />
               </button>
 
-              <button
-                className="relative hover:text-green-600 transition transform hover:scale-110 cursor-pointer"
+              {/*  Cart Icon */}
+              <Link
+                to="/cart"
+                className="relative hover:text-orange-600 transition transform hover:scale-110 cursor-pointer"
                 title="Cart"
               >
                 <IoCartOutline className="text-2xl" />
-                <span className="absolute -top-4 -right-4 bg-green-600 text-white text-xs font-semibold py-1 px-2 rounded-full">
-                  2
-                </span>
-              </button>
+                {cartCount > 0 && (
+                  <span className="absolute -top-3 -right-3 bg-orange-600 text-white text-xs font-semibold py-0.5 px-2 rounded-full">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
             </div>
           </div>
 
-          {/* Mobile Icons */}
+          {/* ======= Mobile Icons ======= */}
           <div className="flex justify-end items-center space-x-5 lg:hidden">
             <button className="text-gray-700 hover:text-green-600">
               <FaRegUser className="text-xl" />
             </button>
 
-            <button className="relative text-gray-700 hover:text-green-600">
+            {/*  Cart Icon for Mobile */}
+            <Link
+              to="/cart"
+              className="relative text-gray-700 hover:text-orange-600 transition transform hover:scale-110 cursor-pointer"
+            >
               <IoCartOutline className="text-2xl" />
-              <span className="absolute -top-4 -right-4 bg-green-600 text-white text-xs font-semibold py-1 px-2 rounded-full">
-                2
-              </span>
-            </button>
+              {cartCount > 0 && (
+                <span className="absolute -top-3 -right-3 bg-orange-600 text-white text-xs font-semibold py-0.5 px-2 rounded-full">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
 
+            {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-700 focus:outline-none cursor-pointer"
             >
-              {isMenuOpen == true ? (
+              {isMenuOpen ? (
                 <IoMdClose className="text-2xl" />
               ) : (
                 <FaBars className="text-2xl" />
@@ -117,7 +132,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* ======= Mobile Menu ======= */}
         {isMenuOpen && (
           <div className="lg:hidden pb-4 space-y-3 bg-white rounded-lg shadow-md mt-2 p-4 animate-slideDown">
             {/* Search on Mobile */}
@@ -135,8 +150,8 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* Mobile Links */}
-            {navLinks.map((item, i) => (
+            {/* Mobile Nav Links */}
+            {navLinks.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
@@ -154,3 +169,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
