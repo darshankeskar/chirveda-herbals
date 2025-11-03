@@ -10,7 +10,7 @@ const HomePage = () => {
       <Hero />
       <SectionHeading
         title="Our"
-        highlight="Natural Care"
+        highlight="Natural Cares"
         subtitle=" Experience holistic skincare solutions — from Aloe Vera therapy to complete natural rejuvenation."
       />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-10">
