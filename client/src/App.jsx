@@ -9,6 +9,7 @@ import ContactUsPage from "./pages/ContactUsPage";
 import Footer from "./components/Footer/Footer";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/contact" element={<ContactUsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </main>
       <Footer />
