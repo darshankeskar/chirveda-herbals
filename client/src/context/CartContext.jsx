@@ -1,50 +1,58 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 // Create Context
 const CartContext = createContext();
 
 // Create Provider
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]); // store list of cart items
-  const [cartCount, setCartCount] = useState(0);
+  const email = localStorage.getItem("email"); // current user
+  const storageKey = `cart_${email || "guest"}`; // per user cart key
 
-  //  Function to add item to cart
+  const [cartItems, setCartItems] = useState(() => {
+    const saved = localStorage.getItem(storageKey);
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Save cart to localStorage whenever cartItems change
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(cartItems));
+  }, [cartItems, storageKey]);
+
+  // Add to cart
   const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existing = prevItems.find((item) => item.id === product.id);
-
+    setCartItems((prev) => {
+      const existing = prev.find((item) => item.id === product.id);
       if (existing) {
-        // if already in cart, increase quantity
-        return prevItems.map((item) =>
+        return prev.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        // if new item, add with quantity = 1
-        return [...prevItems, { ...product, quantity: 1 }];
+        return [...prev, { ...product, quantity: 1 }];
       }
     });
-
-    setCartCount((prev) => prev + 1);
   };
 
-  //  Function to remove single item
+  // Remove item
   const removeFromCart = (id) => {
-    setCartItems((prevItems) => {
-      const itemToRemove = prevItems.find((item) => item.id === id);
-      if (!itemToRemove) return prevItems;
-
-      setCartCount((prev) => prev - itemToRemove.quantity);
-      return prevItems.filter((item) => item.id !== id);
-    });
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  // Function to clear cart
-  const clearCart = () => {
-    setCartItems([]);
-    setCartCount(0);
+  // Update quantity
+  const updateQuantity = (id, quantity) => {
+    if (quantity < 1) return;
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
   };
+
+  // Clear cart
+  const clearCart = () => setCartItems([]);
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -53,6 +61,7 @@ export const CartProvider = ({ children }) => {
         cartCount,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
       }}
     >
@@ -63,3 +72,4 @@ export const CartProvider = ({ children }) => {
 
 // Custom hook
 export const useCart = () => useContext(CartContext);
+           

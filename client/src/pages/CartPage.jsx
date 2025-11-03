@@ -1,16 +1,16 @@
-
 import React from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  const { cartItems, removeFromCart, clearCart } = useCart();
+  const { cartItems, removeFromCart, clearCart, updateQuantity } = useCart();
+  const navigate = useNavigate();
 
   const totalAmount = cartItems.reduce(
     (sum, item) => sum + item.discountedPrice * item.quantity,
     0
   );
-  const navigate = useNavigate();
+  
 
   return (
     <div className="container mx-auto mt-28 px-4 sm:px-8">
@@ -53,6 +53,27 @@ const CartPage = () => {
                       <p className="font-semibold text-green-600">
                         ₹{item.discountedPrice * item.quantity}
                       </p>
+
+                      {/* Quantity Controls */}
+                      <div className="flex items-center space-x-2 mt-2">
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity - 1)
+                          }
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                        >
+                          -
+                        </button>
+                        <span>{item.quantity}</span>
+                        <button
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
+                          className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -94,9 +115,10 @@ const CartPage = () => {
               >
                 Clear Cart
               </button>
-              <button 
-              onClick={() => navigate("/checkout")}
-              className="w-full px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="w-full px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition"
+              >
                 Proceed to Checkout
               </button>
             </div>
@@ -108,4 +130,3 @@ const CartPage = () => {
 };
 
 export default CartPage;
- 

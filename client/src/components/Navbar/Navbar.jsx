@@ -6,6 +6,7 @@ import logo from "../../assets/images/alover-logo.png";
 import { IoCartOutline, IoLogoWhatsapp } from "react-icons/io5"; //  Use this icon for both desktop & mobile
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import UserPage from "../../pages/UserPage";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -89,7 +90,7 @@ const Navbar = () => {
                 className="hover:text-green-600 transition transform hover:scale-110 cursor-pointer"
                 title="Account"
               >
-                <FaRegUser className="text-xl" />
+               <UserPage></UserPage>
               </button>
 
               {/*  Cart Icon */}
@@ -119,7 +120,7 @@ const Navbar = () => {
               <IoLogoWhatsapp className="text-2xl" />
             </Link>
             <button className="text-gray-700 hover:text-green-600">
-              <FaRegUser className="text-xl" />
+              <UserPage></UserPage>
             </button>
 
             {/*  Cart Icon for Mobile */}
