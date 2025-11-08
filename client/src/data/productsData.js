@@ -13,7 +13,7 @@ const products = [
         rating: 4.6,
         reviews: "1,245",
         originalPrice: 350,
-        discountedPrice: 299,
+        discountedPrice: 1,
         offerText: "Save ₹50",
         discountPercent: "15%",
         isAvailable: true,
