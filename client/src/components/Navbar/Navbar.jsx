@@ -98,7 +98,7 @@ const Navbar = ({ onOpenCart }) => {
 
             <div className="flex items-center space-x-5">
               <Link
-                to="https://api.whatsapp.com/message/MSRE2QM2MLH5L1?autoload=1&app_absent=0"
+                to="https://wa.me/+918793139572?text=Hi%20there!%20I%20want%20to%20know%20more%20about%20your%20services."
                 target="_blank"
                 className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 hover:bg-green-600 transition transform hover:scale-110"
                 title="Whatsapp"
@@ -126,7 +126,7 @@ const Navbar = ({ onOpenCart }) => {
           {/* Mobile Icons */}
           <div className="flex justify-end items-center space-x-5 lg:hidden">
             <Link
-              to="https://api.whatsapp.com/message/MSRE2QM2MLH5L1?autoload=1&app_absent=0"
+              to="https://wa.me/+918793139572?text=Hi%20there!%20I%20want%20to%20know%20more%20about%20your%20services."
               target="_blank"
               className="flex items-center justify-center w-8 h-8 rounded-full bg-green-500 hover:bg-green-600 transition transform hover:scale-110"
               title="Whatsapp"
