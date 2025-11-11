@@ -15,25 +15,35 @@ export default function AuthPage() {
   const passwordRef = useRef(null);
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const { loginUser } = useUser();
-
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   // Live validation
   const handleNameChange = (e) => {
     const val = e.target.value;
     setName(val);
-    setErrors((prev) => ({ ...prev, name: !val.trim() ? "Name is required" : null }));
+    setErrors((prev) => ({
+      ...prev,
+      name: !val.trim() ? "Name is required" : null,
+    }));
   };
   const handleEmailChange = (e) => {
     const val = e.target.value;
     setEmail(val);
     setErrors((prev) => ({
       ...prev,
-      email: !val.trim() ? "Email is required" : !emailRegex.test(val) ? "Enter a valid email" : null,
+      email: !val.trim()
+        ? "Email is required"
+        : !emailRegex.test(val)
+        ? "Enter a valid email"
+        : null,
     }));
   };
   const handlePasswordChange = (e) => {
     const val = e.target.value;
     setPassword(val);
-    setErrors((prev) => ({ ...prev, password: !val.trim() ? "Password is required" : null }));
+    setErrors((prev) => ({
+      ...prev,
+      password: !val.trim() ? "Password is required" : null,
+    }));
   };
 
   const validateBeforeSubmit = () => {
@@ -56,7 +66,7 @@ export default function AuthPage() {
 
     try {
       if (mode === "login") {
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
+        const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
           email,
           password,
         });
@@ -71,9 +81,12 @@ export default function AuthPage() {
 
         // Redirect immediately after setting user
         navigate("/");
-
       } else {
-        await axios.post("http://localhost:5000/api/auth/register", { name, email, password });
+        await axios.post(`${API_BASE_URL}/api/auth/register`, {
+          name,
+          email,
+          password,
+        });
         showToast("success", "Account created successfully! Please login.");
         setMode("login");
         setPassword("");
@@ -91,14 +104,14 @@ export default function AuthPage() {
     }
   };
 
-
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 relative">
       {/* Toast */}
       {toast && (
         <div
-          className={`fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white font-medium z-50 animate-toastSlideRight ${toast.type === "success" ? "bg-green-600" : "bg-red-600"
-            }`}
+          className={`fixed top-5 right-5 px-6 py-3 rounded-lg shadow-lg text-white font-medium z-50 animate-toastSlideRight ${
+            toast.type === "success" ? "bg-green-600" : "bg-red-600"
+          }`}
         >
           {toast.message}
         </div>
@@ -124,7 +137,9 @@ export default function AuthPage() {
               value={name}
               onChange={handleNameChange}
             />
-            {errors.name && <p className="text-red-600 text-xs mb-2">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-600 text-xs mb-2">{errors.name}</p>
+            )}
           </>
         )}
 
@@ -135,7 +150,9 @@ export default function AuthPage() {
           value={email}
           onChange={handleEmailChange}
         />
-        {errors.email && <p className="text-red-600 text-xs mb-2">{errors.email}</p>}
+        {errors.email && (
+          <p className="text-red-600 text-xs mb-2">{errors.email}</p>
+        )}
 
         <input
           ref={passwordRef}
@@ -145,17 +162,25 @@ export default function AuthPage() {
           value={password}
           onChange={handlePasswordChange}
         />
-        {errors.password && <p className="text-red-600 text-xs mb-2">{errors.password}</p>}
+        {errors.password && (
+          <p className="text-red-600 text-xs mb-2">{errors.password}</p>
+        )}
 
         <button
           onClick={handleSubmit}
           disabled={isSubmitting}
           className={`w-full bg-green-500 text-white py-3 tracking-wide rounded-md mb-2 
-    ${isSubmitting
-              ? "bg-gray-300 cursor-not-allowed hover:bg-gray-300"
-              : "hover:bg-green-600 cursor-pointer"}`}
+    ${
+      isSubmitting
+        ? "bg-gray-300 cursor-not-allowed hover:bg-gray-300"
+        : "hover:bg-green-600 cursor-pointer"
+    }`}
         >
-          {isSubmitting ? "Submitting..." : mode === "login" ? "LOGIN" : "CREATE ACCOUNT"}
+          {isSubmitting
+            ? "Submitting..."
+            : mode === "login"
+            ? "LOGIN"
+            : "CREATE ACCOUNT"}
         </button>
 
         {mode === "login" && (
